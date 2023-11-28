@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de impresoras</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <!-- BoxIcons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+
+    <!-- Tu archivo CSS personalizado -->
+    <link rel="stylesheet" href="/resources/css/style.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Inicio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Impresoras lista</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/planos">Plano Municipal</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</nav>
+<div class="container">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <form class="d-flex" role="search">
+                <select id="filtro" onchange="filtrarPorEstablecimiento()">
+                    <option value="Municipalidad">Municipalidad</option>
+                    <option value="Hospital">Hospital</option>
+                    <option value="Juzgado">Juzgado</option>
+                    <option value="Licencia de conducir">Licencia de Conducir</option>
+                    <option value="Desarrollo social">Desarrollo Social</option>
+                </select>
+                <input class="form-control me-2" type="search" id="busqueda" placeholder="Buscar impresora" data-table="table" aria-label="Buscar impresora">
+            </form>
+            <a id="btnAgregarImpresora" href="#" class="btn btn-primary">Agregar Impresora</a>
+        </div>
+</div>
+    <!-- Tabla de impresoras-->
+<div class="container">
+    <h4 style="text-align: center;">Datos de las impresoras</h4>
+        <table data-table="table" id="tablaImpresora" class="table table-bordered border-dark">
+            <thead>
+                <tr>
+                    <th style="display: none;">id</th>
+                    <th>Establecimiento</th>
+                    <th>Área</th>
+                    <th>Impresora Número</th>
+                    <th>Modelo Impresora</th>
+                    <th>Toner</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="table table-secondary table-hover table-cus">
+                <% impresoras.forEach( (impresora) => { %>
+                    <tr>
+                        <td style="display: none;"><%= impresora._id %></td>
+                        <td><%= impresora.establecimiento %></td>
+                        <td><%= impresora.nombre_area %></td>
+                        <td><%= impresora.impresora_numero %></td>
+                        <td><%= impresora.impresora_modelo %></td>
+                        <td><%= impresora.toner_descripcion %></td>
+                        <td>
+                            <a type="button" class="btnEdit btn btn-outline-info mt-4 icon-cus">
+                                <i class='bx bxs-edit bx-xs'></i>
+                            </a>
+                            <a href="/delete/<%= impresora._id %>" class="btn btn-outline-danger mt-4 icon-cus" onclick="return confirm('¿Estás seguro de que quieres eliminar esta impresora?')">
+                                <i class='bx bx-trash bx-xs'></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+    </table>
+</div>
+    <!-- Modal para Editar   -->
+<div id="modalImpresora" class="modal fade" tabindex="-1" aria-labelledby="modalImpresora" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar Info</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container mt-4">
+                        <div class="card border-secondary">
+                            <div class="card-header">Editar impresora</div>
+                            <div class="card-body">
+                                <form action="/edit" method="POST">
+                                    <input type="text" id="id_edit" name="id_edit" hidden>
+                                    <label for="establecimiento" class="form-label">Tipo de establecimiento:</label>
+                                    <select class="form-select" aria-label="Default select example" name="establecimiento_edit" id="establecimiento_edit">
+                                        <option value="Municipalidad">Municipalidad</option>
+                                        <option value="Hospital">Hospital</option>
+                                        <option value="Juzgado">Juzgado</option>
+                                        <option value="Licencia de conducir">Licencia de Conducir</option>
+                                        <option value="Desarrollo social">Desarrollo Social</option>
+                                    </select>
+                                    <!-- Área y número de impresora -->
+                                    <div class="row">
+                                        <label for="nombre_area" class="form-label">Área Oficina / Número de Impresora</label>
+                                        <div class="col">
+                                            <input type="text" name="nombre_area_edit" id="nombre_area_edit" value="" aria-label="Área" class="form-control" placeholder="Secretaria de .." required>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" name="impresora_numero_edit" id="impresora_numero_edit" value="" aria-label="Impresora [1,2,3]" class="form-control" placeholder="Imp. 1, Imp. 2, Imp 3" required>
+                                        </div>
+                                    </div>
+                                    <!-- Modelo Impresora -->
+                                    <div class="row">
+                                        <label for="toner_descripcion" class="form-label">Modelo / Toner</label>
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="impresora_modelo_edit" id="impresora_modelo_edit" value="" placeholder="Modelo" aria-label="Modelo" required>
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control" name="toner_descripcion_edit" id="toner_descripcion_edit" value="" placeholder="Toner" aria-label="Toner" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Guardar</button>
+                                        <a href="/" class="btn btn-danger">Cancelar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+    <!-- Modal para agregar impresora -->
+<div class="modal fade" id="modalAgregarImpresora" tabindex="-1" aria-labelledby="modalAgregarImpresoraLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarImpresoraLabel">Agregar Nueva Impresora</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario para agregar nueva impresora -->
+                    <form action="/create" id="formAgregarImpresora" method="POST">
+                        <div class="mb-3">
+                            <label for="establecimiento" class="form-label">Tipo de Establecimiento</label>
+                            <select class="form-select" id="establecimiento" name="establecimiento" required>
+                                <option value="Municipalidad">Municipalidad</option>
+                                <option value="Hospital">Hospital</option>
+                                <option value="Juzgado">Juzgado</option>
+                                <option value="Licencia de conducir">Licencia de Conducir</option>
+                                <option value="Desarrollo social">Desarrollo Social</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nombre_area" class="form-label">Área Oficina</label>
+                            <input type="text" class="form-control" id="nombre_area" name="nombre_area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="impresora_numero" class="form-label">Número de Impresora</label>
+                            <input type="text" class="form-control" id="impresora_numero" name="impresora_numero" aria-label="Impresora [1,2,3]" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="impresora_modelo" class="form-label">Modelo de Impresora</label>
+                            <input type="text" class="form-control" id="impresora_modelo" name="impresora_modelo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="toner_descripcion" class="form-label">Descripción del Toner</label>
+                            <input type="text" class="form-control" id="toner_descripcion" name="toner_descripcion" required>
+                        </div>
+                        <a href="/" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+</div>
+    <script>
+            function validarFormulario() {
+        console.log("Establecimiento seleccionado:", document.getElementById('establecimiento').value);
+        return true;  // Puedes cambiar esto a false para evitar que se envíe el formulario y ver la salida en la consola.
+    }
+    </script>
+<!-- Bootstrap JS (Bundle que incluye Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Tu archivo JS personalizado -->
+    <script type="module" src="/resources/js/busqueda.js"></script>
+    <script src="/resources/js/code.js"></script>
+</body>
+</html>
