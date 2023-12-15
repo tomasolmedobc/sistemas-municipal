@@ -13,17 +13,17 @@ document.getElementById('busqueda').addEventListener('input', function () {
         }
     });
 });
+
 function filtrarPorEstablecimiento() {
     var idEstablecimiento = document.getElementById('filtro').value;
-
     // Realizar una solicitud AJAX al servidor para obtener los elementos del establecimiento
     $.ajax({
-      type: 'POST', // O el método que estés utilizando
-      url: 'obtener_elementos.php', // Reemplaza con la ruta correcta de tu servidor
+        type: 'POST', // O el método que estés utilizando
+        url: 'obtener_elementos.php', // Reemplaza con la ruta correcta de tu servidor
         data: { idEstablecimiento: idEstablecimiento },
         success: function(data) {
             // Actualizar la lista de elementos en la página
             $('#lista-elementos').html(data);
         }
-        });
+    });
 }

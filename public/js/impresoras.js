@@ -53,7 +53,6 @@ addEvent(document, 'click', '.btnEdit', (e, botonEdit) => {
     }
 });
 
-// Resto del código...
 
 document.addEventListener('DOMContentLoaded', function () {
     var btnAgregarImpresora = document.getElementById('btnAgregarImpresora');
