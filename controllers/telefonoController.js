@@ -34,7 +34,7 @@ module.exports.create = async (req, res) => {
         console.log('Telefono creado:', nuevoTelefono);
 
         // Redirige a la página principal después de crear la Telefono
-        res.redirect('/internostel'); // Cambiado a '/internostel'
+        res.redirect('/internostel'); 
 
     } catch (error) {
         console.error('Error al crear la Telefono:', error.message);

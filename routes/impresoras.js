@@ -3,6 +3,8 @@ const router = express.Router();
 const Impresora = require('../model/Impresora');
 const impresoraController = require('../controllers/impresoraController');
 const telefonoController = require('../controllers/telefonoController');
+const domainipController = require('../controllers/domainipController');
+const comprobanteController = require('../controllers/comprobanteController');
 
 // Obtiene las impresoras y las muestra
 router.get('/index', async (req, res) => {
@@ -48,5 +50,30 @@ router.post('/editTelefono', telefonoController.edit);
 // Ruta para eliminar un Teléfono (GET)
 router.get('/deleteTelefono/:id', telefonoController.delete);
 
+// Muestra lista de ips
+
+//Visualizar pagina domainp
+router.get('/domainip', domainipController.mostrar);
+// Ruta para agregar un nuevo ip
+router.post('/createDomainip', domainipController.create);
+
+// Ruta para editar un ip
+router.post('/editDomainip', domainipController.edit);
+
+// Ruta para eliminar un ip (GET)
+router.get('/deleteDomainip/:id', domainipController.delete);
+
+
+// Muestra lista de comprobantes
+//Visualizar pagina comprobantes
+router.get('/comprobante', comprobanteController.mostrar);
+
+// Ruta para agregar un nuevo comprobante
+router.post('/createComprobante', comprobanteController.create);
+//Ruta para editar un comprobante
+router.post('/editComprobante', comprobanteController.edit);
+//Eliminar Comprobante
+// Ruta para eliminar un ip (GET)
+router.get('/deleteComprobante/:id', comprobanteController.delete);
 
 module.exports = router;

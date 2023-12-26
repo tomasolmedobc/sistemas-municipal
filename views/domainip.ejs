@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telefonos internos</title>
+    <title>Servidor domain ip</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <!-- BoxIcons -->
@@ -41,36 +41,38 @@
 <div class="container">
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" id="busqueda" placeholder="Buscar telefono" data-table="table" aria-label="Buscar telefono">
+            <input class="form-control me-2" type="search" id="busqueda" placeholder="Buscar ip" data-table="table" aria-label="Buscar ip">
         </form>
-        <a id="btnAgregarTelefono" href="#" class="btn btn-primary">Agregar telefono</a>
+        <a id="btnAgregarDomainip" href="#" class="btn btn-primary">Agregar nueva ip</a>
     </div>
 </div>
-<!-- Tabla de Teléfono -->
+<!-- Tabla de Dominio -->
 <div class="container">
-    <h4 style="text-align: center;">Datos de las telefono internos</h4>
-        <table data-table="table" id="tablaTelefono" class="table table-bordered border-dark">
+    <h4 style="text-align: center;">Datos de los ip del dominio</h4>
+        <table data-table="table" id="tablaDomainip" class="table table-bordered border-dark">
             <thead>
                 <tr>
                     <th style="display: none;">id</th>
-                    <th>interno</th>
-                    <th>Oficina</th>
-                    <th>Referente</th>
-                    <th>Acciones</th>
+                    <th>IP 10.240.21.#</th>
+                    <th>Hostname</th>
+                    <th>Nombre de usuario</th>
+                    <th>Observacion</th>
                 </tr>
             </thead>
             <tbody class="table table-secondary table-hover table-cus">
-                <% telefonos.forEach((telefono) => { %>
+                <% domainips.forEach((domainip) => { %>
+                    
                     <tr>
-                        <td style="display: none;"><%= telefono._id %></td>
-                        <td><%= telefono.n_interno %></td>
-                        <td><%= telefono.oficina %></td>
-                        <td><%= telefono.referente %></td>
+                        <td style="display: none;"><%= domainip._id %></td>
+                        <td><%= domainip.ip_libres %></td>
+                        <td><%= domainip.hostname %></td>
+                        <td><%= domainip.nombre_usuario %></td>
+                        <td><%= domainip.observacion %></td>
                         <td>
                             <a type="button" class="btnEdit btn btn-outline-info mt-4 icon-cus">
                                 <i class='bx bxs-edit bx-xs'></i>
                             </a>
-                            <a href="/deleteTelefono/<%= telefono._id %>" class="btn btn-outline-danger mt-4 icon-cus" onclick="return confirm('¿Estás seguro de que quieres eliminar esta telefono?')">
+                            <a href="/deleteDomainip/<%= domainip._id %>" class="btn btn-outline-danger mt-4 icon-cus" onclick="return confirm('¿Estás seguro de que quieres eliminar este ip?')">
                                 <i class='bx bx-trash bx-xs'></i>
                             </a>
                         </td>
@@ -80,7 +82,7 @@
     </table>
 </div>
     <!-- Modal para Editar   -->
-    <div id="modalTelefono" class="modal fade" tabindex="-1" aria-labelledby="modalTelefono" aria-hidden="true">
+<div id="modalDomainip" class="modal fade" tabindex="-1" aria-labelledby="modalDomainip" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
@@ -90,29 +92,32 @@
                 <div class="modal-body">
                     <div class="container mt-4">
                         <div class="card border-secondary">
-                            <div class="card-header">Editar Telefono</div>
+                            <div class="card-header">Editar Domain Ip</div>
                             <div class="card-body">
-                                <form action="/editTelefono" method="POST">
+                                <form action="/editDomainip" method="POST">
                                     <input type="text" id="id_edit" name="id_edit" hidden>
-
-                                    <!-- Área y número de Telefono -->
                                     <div class="row">
-                                        <label for="n_interno" class="form-label">Número Interno</label>
+                                        <label for="ip_libres" class="form-label">IP</label>
                                         <div class="mb-3">
-                                            <input type="text" name="n_interno_edit" id="n_interno_edit" value="" aria-label="Área" class="form-control" placeholder="Número Interno" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="oficina" class="form-label">Oficina</label>
-                                            <input type="text" name="oficina_edit" id="oficina_edit" value="" aria-label="Oficina area" class="form-control" placeholder="Tipo de Oficina" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="referente" class="form-label">Oficina</label>
-                                            <input type="text" name="referente_edit" id="referente_edit" value="" aria-label="Referente area" class="form-control" placeholder="Referente de Oficina" required>
-                                        </div>
+                                            <input type="text" name="ip_libres_edit" id="ip_libres_edit" value="" aria-label="Área" class="form-control" placeholder="Número dominio" required>
+                                    </div>
+                                    <div class="mb-3">
+                                            <label for="hostname" class="form-label">Hostname</label>
+                                            <input type="text" name="hostname_edit" id="hostname_edit" value="" aria-label="Hostname" class="form-control" placeholder="Hostname" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
+                                        <input type="text" name="nombre_usuario_edit" id="nombre_usuario_edit" value="" aria-label="Nombre de usuario" class="form-control" placeholder="Nombre de usuario" required>
+                                    </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="observacion" class="form-label">Observacones</label>
+                                        <input type="text" name="observacion_edit" id="observacion_edit" value="" aria-label="Observacion" class="form-control" placeholder="Observacion" required>
                                     </div>
                                 </div>
+                                </div>
                                     <div class="col-12">
-                                        <a href="/internostel" class="btn btn-danger">Cancelar</a>
+                                        <a href="/domainip" class="btn btn-danger">Cancelar</a>
                                         <button class="btn btn-primary" type="submit">Guardar</button>
                                     </div>
                                 </form>
@@ -123,30 +128,34 @@
             </div>
         </div>
 </div>
-    <!-- Modal para agregar Telefono -->
-<div class="modal fade" id="modalAgregarTelefono" tabindex="-1" aria-labelledby="modalAgregarTelefonoLabel" aria-hidden="true">
+    <!-- Modal para agregar Domain ip -->
+<div class="modal fade" id="modalAgregarDominioip" tabindex="-1" aria-labelledby="modalAgregarDominioipLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarTelefonoLabel">Agregar Nueva Telefono</h5>
+                    <h5 class="modal-title" id="modalAgregarDominioipLabel">Agregar nuevo Dominio ip</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario para agregar nueva Telefono -->
-                    <form action="/createTelefono" id="formAgregarTelefono" method="POST">
+                    <!-- Formulario para agregar nueva Domain ip -->
+                    <form action="/createDomainip" id="formAgregarDominioip" method="POST">
                         <div class="mb-3">
-                            <label for="n_interno" class="form-label">Número interno</label>
-                            <input type="text" class="form-control" id="n_interno" name="n_interno" required>
+                            <label for="ip_libres" class="form-label">Nuevo ip</label>
+                            <input type="text" class="form-control" id="ip_libres" name="ip_libres" required>
                         </div>
                         <div class="mb-3">
-                            <label for="oficina" class="form-label">Oficina</label>
-                            <input type="text" class="form-control" id="oficina" name="oficina" aria-label="Tipo de oficina" required>
+                            <label for="hostname" class="form-label">Hostname</label>
+                            <input type="text" class="form-control" id="hostname" name="hostname" aria-label="Hostname" required>
                         </div>
                         <div class="mb-3">
-                            <label for="referente" class="form-label">Referente del Área</label>
-                            <input type="text" class="form-control" id="referente" name="referente" required>
+                            <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
+                            <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required>
                         </div>
-                        <a href="internostel" class="btn btn-danger">Cancelar</a>
+                        <div class="mb-3">
+                            <label for="observacion" class="form-label">Observacion sobre el equipo</label>
+                            <input type="text" class="form-control" id="observacion" name="observacion">
+                        </div>
+                        <a href="/domainip" class="btn btn-danger">Cancelar</a>
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         
                     </form>
@@ -160,7 +169,7 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Tu archivo JS personalizado -->
-    <script type="module" src="/resources/js/telefonos.js"></script>
+    <script type="module" src="/resources/js/domainip.js"></script>
     <script type="module" src="/resources/js/busqueda.js"></script>
 </body>
 </html>
