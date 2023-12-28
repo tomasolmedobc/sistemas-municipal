@@ -76,4 +76,6 @@ router.post('/editComprobante', comprobanteController.edit);
 // Ruta para eliminar un ip (GET)
 router.get('/deleteComprobante/:id', comprobanteController.delete);
 
+router.get('/printComprobante/:id', comprobanteController.print);
+
 module.exports = router;

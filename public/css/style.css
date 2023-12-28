@@ -57,21 +57,48 @@
     }
 
 
-        /* Estilos para el botón de cierre */
-        .btnPrint {
-            cursor: pointer;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-            border-radius: 0.25rem;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
+/* Estilos para el botón de cierre */
+.btnPrint {
+    cursor: pointer;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#back-top {
+    margin-top: 105vh;
+    position: sticky;
+    bottom: 32px;
+    left: 32px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#back-top {
+    padding: 10px;
+    background: white;
+    border-radius: 1000px;
+    box-shadow: 0 0 10px #00000035;
+    background: #09f;
+    color: #fff;
+    text-decoration: none;
+}
+
+.observacion {
+    word-wrap: break-word;
+    white-space: pre-line;  
+    font-size: 12px;
+}

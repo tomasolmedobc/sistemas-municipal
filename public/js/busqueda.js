@@ -27,3 +27,8 @@ function filtrarPorEstablecimiento() {
         }
     });
 }
+
+function verMas(id) {
+    const observacion = '<%= comprobante.observacion %>';
+    document.getElementById(id).innerHTML = observacion;
+}
