@@ -97,8 +97,8 @@ html {
     text-decoration: none;
 }
 
-.observacion {
+.html {
     word-wrap: break-word;
     white-space: pre-line;  
-    font-size: 12px;
+    font-size: 1rem;
 }
