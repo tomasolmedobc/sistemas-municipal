@@ -90,36 +90,67 @@
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
         // Evento para el botón de impresión
-        addEvent(document, 'click', '.btnPrint', (e, btnPrint) => {
+        addEvent(document, 'click', '.btnPrint', async (e, btnPrint) => {
             try {
                 const comprobanteId = btnPrint.getAttribute('data-id');
-                const printWindow = window.open('', '_blank');
-
-                // Cargar la vista de impresión en la nueva ventana
-                printWindow.document.write(`
-                    <html lang="en">
-                    <head>
-                        <meta charset="UTF-8">
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <title>Print Comprobante</title>
-                    </head>
-                    <body>
-                        <h1>Contenido del comprobante a imprimir</h1>
-                        <!-- Agrega el contenido del comprobante aquí -->
-                        <script>
-                            // Agrega cualquier script necesario para personalizar la impresión
-                        </script>
-                    </body>
-                    </html>
-                `);
-
-                // Cierra la escritura en el documento para que el script funcione
-                printWindow.document.close();
+        
+                // Obtener datos del comprobante
+                const comprobanteData = await obtenerDatosComprobante(comprobanteId);
+        
+                // Mostrar la vista de impresión
+                mostrarVistaImpresion(comprobanteData);
             } catch (error) {
                 console.error('Error al imprimir comprobante:', error.message);
             }
         });
+        
+        // Función para obtener datos del comprobante
+        async function obtenerDatosComprobante(comprobanteId) {
+            try {
+                const response = await fetch(`/api/comprobante/${comprobanteId}`);
+                if (!response.ok) {
+                    throw new Error(`Error al obtener datos del comprobante: ${response.statusText}`);
+                }
+        
+                const comprobanteData = await response.json();
+                return comprobanteData;
+            } catch (error) {
+                console.error('Error en obtenerDatosComprobante:', error.message);
+                throw error;
+            }
+        }
+        
+        // Función para mostrar la vista de impresión
+        function mostrarVistaImpresion(comprobanteId) {
+            // Crea un nuevo documento HTML para la vista de impresión
+            const printWindow = window.open('', '_blank');
+            const printDocument = printWindow.document;
 
+            printDocument.write('<html lang="en"><head>');
+            printDocument.write('<meta charset="UTF-8">');
+            printDocument.write('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
+            printDocument.write('<title>Print Comprobante</title>');
+            printDocument.write('</head><body>');
+
+            // Incluye los datos del comprobante en el cuerpo del documento
+            printDocument.write('<h1>Contenido del comprobante a imprimir</h1>');
+            printDocument.write('<pre>' + JSON.stringify(comprobanteId, null, 2) + '</pre>');
+
+            printDocument.write('</body></html>');
+            printDocument.close();
+        }
     });
 })();
 
+function toggleObservacion(comprobanteId) {
+    var observacionElement = document.getElementById('observacion_' + comprobanteId);
+    var verMasLink = document.getElementById('verMas_' + comprobanteId);
+
+    if (observacionElement.style.whiteSpace === 'nowrap') {
+        observacionElement.style.whiteSpace = 'normal';
+        verMasLink.innerText = 'Esconder';
+    } else {
+        observacionElement.style.whiteSpace = 'nowrap';
+        verMasLink.innerText = 'Ver Más';
+    }
+}

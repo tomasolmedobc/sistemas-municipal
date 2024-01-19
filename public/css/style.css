@@ -56,13 +56,12 @@
     max-height: 100%;
     }
 
-
 /* Estilos para el botón de cierre */
 .btnPrint {
     cursor: pointer;
     color: #fff;
     background-color: #007bff;
-    border-color: #007bff;
+    border-color: #198754;
     border-radius: 0.25rem;
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;

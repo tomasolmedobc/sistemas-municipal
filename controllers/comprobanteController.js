@@ -1,5 +1,3 @@
-const { error } = require('jquery');
-// controllers/comprobanteController.js
 const Comprobante = require('../model/Comprobante');
 const moment = require('moment-timezone');
 
@@ -22,6 +20,7 @@ module.exports.mostrar = async (req, res) => {
         });
     }
 };
+
 // Ruta para agregar un nuevo comprobante
 module.exports.create = async (req, res) => {
     try {
@@ -32,9 +31,8 @@ module.exports.create = async (req, res) => {
             area_entrega,
             emisor_,
             observacion,
-            fecha: formattedFechaISO // Guardar como cadena en lugar de objeto Date
+            fecha: formattedFechaISO,
         });
-        console.log('Fecha antes de guardar:', nuevoComprobante.fecha);
 
         await nuevoComprobante.save();
         console.log('Comprobante creado:', nuevoComprobante);
@@ -47,6 +45,7 @@ module.exports.create = async (req, res) => {
         });
     }
 };
+
 // Editar
 module.exports.edit = async (req, res) => {
     try {
@@ -66,7 +65,7 @@ module.exports.edit = async (req, res) => {
             area_entrega: area_entrega_edit,
             emisor_: emisor_edit,
             observacion: observacion_edit,
-            fecha: formattedFechaISOEdit
+            fecha: formattedFechaISOEdit,
         });
 
         res.redirect('/comprobante');
@@ -74,7 +73,7 @@ module.exports.edit = async (req, res) => {
         console.error('Error al actualizar comprobante:', error.message);
         res.status(500).json({
             message: `Error al actualizar comprobante: ${error.message}`,
-            error: error.message
+            error: error.message,
         });
     }
 };
@@ -93,22 +92,5 @@ module.exports.delete = async (req, res) => {
     } catch (error) {
         console.error('Error al borrar el Comprobante:', error);
         res.status(500).json({ message: 'Error al borrar el Comprobante' });
-    }
-};
-
-// Controlador para enviar un comprobante a imprimir
-module.exports.print = async (req, res) => {
-    const comprobanteId = req.params.id;
-    try {
-        const comprobante = await Comprobante.findById(comprobanteId);
-        if (!comprobante) {
-            return res.status(404).json({ message: 'Comprobante no encontrado para imprimir' });
-        }
-
-        // Renderiza la vista de impresión
-        res.render('printComprobante', { comprobante: comprobante });
-    } catch (error) {
-        console.error('Error al imprimir el Comprobante:', error);
-        res.status(500).json({ message: 'Error al imprimir el Comprobante' });
     }
 };

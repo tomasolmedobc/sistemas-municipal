@@ -14,6 +14,7 @@ document.getElementById('busqueda').addEventListener('input', function () {
     });
 });
 
+
 function filtrarPorEstablecimiento() {
     var idEstablecimiento = document.getElementById('filtro').value;
     // Realizar una solicitud AJAX al servidor para obtener los elementos del establecimiento
@@ -28,7 +29,4 @@ function filtrarPorEstablecimiento() {
     });
 }
 
-function verMas(id) {
-    const observacion = '<%= comprobante.observacion %>';
-    document.getElementById(id).innerHTML = observacion;
-}
+

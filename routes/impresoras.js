@@ -5,6 +5,10 @@ const impresoraController = require('../controllers/impresoraController');
 const telefonoController = require('../controllers/telefonoController');
 const domainipController = require('../controllers/domainipController');
 const comprobanteController = require('../controllers/comprobanteController');
+const pdfController = require('../controllers/pdfController');
+
+
+
 
 // Obtiene las impresoras y las muestra
 router.get('/index', async (req, res) => {
@@ -72,10 +76,11 @@ router.get('/comprobante', comprobanteController.mostrar);
 router.post('/createComprobante', comprobanteController.create);
 //Ruta para editar un comprobante
 router.post('/editComprobante', comprobanteController.edit);
-//Eliminar Comprobante
+
 // Ruta para eliminar un ip (GET)
 router.get('/deleteComprobante/:id', comprobanteController.delete);
 
-router.get('/printComprobante/:id', comprobanteController.print);
+router.get('/pdfComprobante/:id', pdfController.print);
+
 
 module.exports = router;

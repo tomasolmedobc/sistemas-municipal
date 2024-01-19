@@ -70,9 +70,10 @@
                         <td scoope="col"><%= comprobante.area_entrega %></td>
                         <td scoope="col"><%= comprobante.emisor_ %></td>
                         <td class="observacion" id="observacion_<%= comprobante._id %>">
-                            <%= comprobante.observacion.substring(0, 20) %> <!-- Limitar a 100 caracteres por ejemplo -->
-                            <% if (comprobante.observacion.length > 20) { %>
-                                <a href="javascript:void(0);" onclick="verMas('observacion_<%= comprobante._id %>')">Ver Más</a>
+                            <%= comprobante.observacion.substring(0, 25) %> <!-- Limitar a 25 caracteres -->
+                            <% if (comprobante.observacion.length > 25) { %>
+                                <span id="observacionRestante_<%= comprobante._id %>" style="white-space: nowrap; display: none;"><%= comprobante.observacion.substring(25) %></span>
+                                <a href="javascript:void(0);" id="verMas_<%= comprobante._id %>" onclick="toggleObservacion('<%= comprobante._id %>')">Ver Más</a>
                             <% } %>
                         </td>
                         </td>                        
@@ -84,14 +85,14 @@
                             Fecha no válida
                         <% } %></td>
                         <td>
-                            <a type="button" class="btnPrint btn btn-outline-success mt-4 icon-cus" data-id="<%= comprobante._id %>">
+                            <a href="/pdfComprobante/<%= comprobante._id %>" class="btnPrint btn btn-outline-success mt-4 icon-cus"  onclick="return confirm('¿Estás seguro de que quieres imprimir este comprobante?')">
                                 <i class='bx bx-printer bx-xs'></i>
                             </a>
                             <a type="button" class="btnEdit btn btn-outline-info mt-4 icon-cus">
                                 <i class='bx bxs-edit bx-xs'></i>
                             </a>
 
-                            <a href="/deleteComprobante/<%= comprobante._id %>" class="btn btn-outline-danger mt-4 icon-cus" onclick="return confirm('¿Estás seguro de que quieres eliminar este ip?')">
+                            <a href="/deleteComprobante/<%= comprobante._id %>" class="btn btn-outline-danger mt-4 icon-cus" onclick="return confirm('¿Estás seguro de que quieres eliminar este comprobante?')">
                                 <i class='bx bx-trash bx-xs'></i>
                             </a>
                         </td>
@@ -199,5 +200,7 @@
 <!-- Tu archivo JS personalizado -->
 <script type="module" src="/resources/js/comprobante.js"></script>
 <script type="module" src="/resources/js/busqueda.js"></script>
+<script src="/resources/js/pdfGenerator.js"></script>
+
 </body>
 </html>

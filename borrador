@@ -1,0 +1,31 @@
+const PDFDocument = require('pdfkit');
+
+function generatePDF(comprobante) {
+    const doc = new PDFDocument();
+
+    const imagePath = 'public/image/membrete.png';
+    // Encabezado del PDF
+    doc.fontSize(18).text('Comprobante', { align: 'center' });
+
+    // Agregar imagen de fondo
+    doc.image(imagePath, {
+        fit: [416, 379 ],  // Tamaño de la imagen para A4
+        align: 'center',
+        valign: 'center'
+    });
+
+    // Contenido del PDF
+    doc.fontSize(12).text(`Recibio: ${comprobante.receptor_}`);
+    doc.fontSize(12).text(`Area responsable: ${comprobante.area_entrega}`);
+    doc.fontSize(12).text(`Entregado por: ${comprobante.emisor_}`);
+    doc.fontSize(12).text(`Observacion: ${comprobante.observacion}`);
+    doc.fontSize(12).text(`Fecha: ${comprobante.fecha}`);
+
+    return doc;
+
+    
+}
+
+module.exports = { generatePDF };
+
+
