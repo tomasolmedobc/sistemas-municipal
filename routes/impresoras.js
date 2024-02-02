@@ -82,5 +82,15 @@ router.get('/deleteComprobante/:id', comprobanteController.delete);
 
 router.get('/pdfComprobante/:id', pdfController.print);
 
+// Ruta para manejar la solicitud POST
+router.post('/obtener_elementos', (req, res) => {
+    // Obtener el ID del establecimiento desde la solicitud POST
+    const idEstablecimiento = req.body.idEstablecimiento;
+    // Realizar operaciones necesarias con el ID y devolver la respuesta (ejemplo)
+    const response = "Información para el establecimiento con ID: " + idEstablecimiento;
+    // Devolver la respuesta
+    res.send(response);
+});
+
 
 module.exports = router;

@@ -29,3 +29,6 @@ function generatePDF(comprobante) {
 module.exports = { generatePDF };
 
 
+///////
+
+<a href="javascript:void(0);" id="verMas_<%= comprobante._id %>" onclick="toggleObservacion('<%= comprobante._id %>')">Ver Más</a>

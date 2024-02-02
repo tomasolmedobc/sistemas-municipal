@@ -1,32 +1,30 @@
-document.getElementById('busqueda').addEventListener('input', function () {
-    // Obtener el valor de búsqueda ingresado
-    const searchTerm = this.value.toLowerCase();
+    document.getElementById('filtro').addEventListener('change', function () {
+        filtrarTabla();
+    });
     
-    // Filtrar la tabla de datos según el término de búsqueda
-    const rows = document.querySelectorAll('[data-table="table"] tbody tr');
-    rows.forEach(function (row) {
+    document.getElementById('busqueda').addEventListener('input', function () {
+        filtrarTabla();
+    });
+    
+    function filtrarTabla() {
+        // Obtener el valor del filtro seleccionado
+        const filtroSeleccionado = document.getElementById('filtro').value.toLowerCase();
+    
+        // Obtener el valor de búsqueda ingresado
+        const searchTerm = document.getElementById('busqueda').value.toLowerCase();
+    
+        // Filtrar la tabla de datos según el término de búsqueda y el filtro seleccionado
+        const rows = document.querySelectorAll('[data-table="table"] tbody tr');
+        rows.forEach(function (row) {
         const text = row.textContent.toLowerCase();
-        if (text.includes(searchTerm)) {
+    
+        // Comprobar si el texto contiene el término de búsqueda y pertenece al filtro seleccionado
+        if (text.includes(searchTerm) && (filtroSeleccionado === 'todos' || text.includes(filtroSeleccionado))) {
             row.style.display = '';
         } else {
             row.style.display = 'none';
         }
-    });
-});
-
-
-function filtrarPorEstablecimiento() {
-    var idEstablecimiento = document.getElementById('filtro').value;
-    // Realizar una solicitud AJAX al servidor para obtener los elementos del establecimiento
-    $.ajax({
-        type: 'POST', // O el método que estés utilizando
-        url: 'obtener_elementos.php', // Reemplaza con la ruta correcta de tu servidor
-        data: { idEstablecimiento: idEstablecimiento },
-        success: function(data) {
-            // Actualizar la lista de elementos en la página
-            $('#lista-elementos').html(data);
-        }
-    });
-}
-
-
+        });
+    }
+    
+  

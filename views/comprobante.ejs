@@ -73,10 +73,12 @@
                             <%= comprobante.observacion.substring(0, 25) %> <!-- Limitar a 25 caracteres -->
                             <% if (comprobante.observacion.length > 25) { %>
                                 <span id="observacionRestante_<%= comprobante._id %>" style="white-space: nowrap; display: none;"><%= comprobante.observacion.substring(25) %></span>
-                                <a href="javascript:void(0);" id="verMas_<%= comprobante._id %>" onclick="toggleObservacion('<%= comprobante._id %>')">Ver Más</a>
+
+                                <a href="javascript:void(0);" id="verMas_<%= comprobante._id %>" data-comprobante-id="<%= comprobante._id %>">Ver Más</a>
+
                             <% } %>
                         </td>
-                        </td>                        
+                                   
                         <td scoope="col"><% if (comprobante.fecha) { %>
                             <% const fechaFormateada = comprobante.fecha.split('-').reverse().join('/'); %>
                             <%= fechaFormateada %>

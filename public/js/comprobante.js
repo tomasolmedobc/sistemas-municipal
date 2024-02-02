@@ -1,3 +1,5 @@
+
+
 // Este es el punto de entrada principal
 (function () {
     // Función para agregar eventos con delegación de eventos
@@ -9,6 +11,7 @@
             }
         });
     }
+    
 
     // Evento que se ejecuta cuando el DOM se ha cargado completamente
     document.addEventListener('DOMContentLoaded', function () {
@@ -119,7 +122,6 @@
                 throw error;
             }
         }
-        
         // Función para mostrar la vista de impresión
         function mostrarVistaImpresion(comprobanteId) {
             // Crea un nuevo documento HTML para la vista de impresión
@@ -134,11 +136,15 @@
 
             // Incluye los datos del comprobante en el cuerpo del documento
             printDocument.write('<h1>Contenido del comprobante a imprimir</h1>');
-            printDocument.write('<pre>' + JSON.stringify(comprobanteId, null, 2) + '</pre>');
+
+            const preElement = printDocument.createElement('pre');
+            preElement.textContent = JSON.stringify(comprobanteId, null, 2);
+            printDocument.body.appendChild(preElement);
 
             printDocument.write('</body></html>');
             printDocument.close();
         }
+
     });
 })();
 
