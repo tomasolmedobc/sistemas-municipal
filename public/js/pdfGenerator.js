@@ -1,49 +1,47 @@
 const PDFDocument = require('pdfkit');
 
 function generatePDF(comprobante) {
-    const doc = new PDFDocument({ size: 'A4' });
+    const doc = new PDFDocument();
 
-    const imagePathHeader = 'public/image/header.png';
-    const imagePathFooter = 'public/image/footer.png';
-
-    // Encabezado del PDF
-    doc.image(imagePathHeader, {
-        fit: [480, 190],  // Ajusta el tamaño de la imagen para el encabezado
-        align: 'center',
-        valign: 'top'
-        
+    // Agrega una página
+    doc.addPage({
+        size: [595.28, 841.89], // Tamaño A4 en puntos (1 punto = 1/72 pulgada)
+        margin: 0 // Sin márgenes
     });
 
-    // Contenido del PDF
-    const contenidoX = 50; // Margen izquierdo
-    const contenidoY = 40; // Margen superior
-
-    // Centrar verticalmente el contenido
-    const contenidoAncho = doc.page.width - 2 * contenidoX;
-    const contenidoAlto = doc.page.height - contenidoY * 2;
-
-    // Calcular la posición vertical central
-    const contenidoYCentrado = contenidoY + (contenidoAlto - 80) / 2;
-
-    // Contenido del PDF centrado verticalmente
-    const datosY = contenidoYCentrado + 30; // Ajustar según la separación deseada
-    const contenidoEstilo = { fontSize: 12, fillColor: '#FFFFFF', lineGap: 10 };
-    doc.text(`Recibio: ${comprobante.receptor_}`, contenidoX, datosY, { width: contenidoAncho, ...contenidoEstilo });
-    doc.text(`Area responsable: ${comprobante.area_entrega}`, contenidoX, datosY + 20, { width: contenidoAncho, ...contenidoEstilo });
-    doc.text(`Entregado por: ${comprobante.emisor_}`, contenidoX, datosY + 40, { width: contenidoAncho, ...contenidoEstilo });
-    doc.text(`Observacion: ${comprobante.observacion}`, contenidoX, datosY + 60, { width: contenidoAncho, ...contenidoEstilo });
-    doc.text(`Fecha: ${comprobante.fecha}`, contenidoX, datosY + 80, { width: contenidoAncho, ...contenidoEstilo });
-
-    // Pie de página del PDF
-    doc.image(imagePathFooter, {
-        fit: [520, 190],  // Ajusta el tamaño de la imagen para el pie de página
-        align: 'center',
-        valign: 'bottom'
+    // Agrega el fondo
+    doc.image('public/image/pdfBackground.png', {
+        fit: [595.28, 841.89] // Ajusta el tamaño de la imagen para que cubra toda la página
     });
 
-    return doc;
+    // Formatear la fecha
+    const fecha = new Date(comprobante.fecha);
+    const dia = fecha.getUTCDate();
+    const mes = getNombreMes(fecha.getUTCMonth());
+    const año = fecha.getUTCFullYear();
+    const fechaFormateada = `${dia} ${mes} ${año}`;
+
+    // Agrega contenido basado en el comprobante proporcionado
+    const contenido =   `Recibió: ${comprobante.receptor_}\n` +
+                        `Área responsable: ${comprobante.area_entrega}\n` +
+                        `Entregado por: ${comprobante.emisor_}\n` +
+                        `Observación: ${comprobante.observacion}\n` +
+                        `Fecha: ${fechaFormateada}`;
+
+    // Calcula la posición para colocar el contenido encima del fondo
+    const contentX = 50; // Ajusta la posición horizontal según sea necesario
+    const contentY = 140; // Ajusta la posición vertical según sea necesario
+
+    // Agrega el contenido encima del fondo
+    doc.text(contenido, contentX, contentY);
+
+    return doc; // Devuelve el objeto PDFDocument
 }
 
-module.exports = { generatePDF };
+// Función para obtener el nombre del mes
+function getNombreMes(mes) {
+    const nombresMeses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    return nombresMeses[mes];
+}
 
-
+module.exports = generatePDF;

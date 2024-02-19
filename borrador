@@ -3,32 +3,33 @@ const PDFDocument = require('pdfkit');
 function generatePDF(comprobante) {
     const doc = new PDFDocument();
 
-    const imagePath = 'public/image/membrete.png';
-    // Encabezado del PDF
-    doc.fontSize(18).text('Comprobante', { align: 'center' });
-
-    // Agregar imagen de fondo
-    doc.image(imagePath, {
-        fit: [416, 379 ],  // Tamaño de la imagen para A4
-        align: 'center',
-        valign: 'center'
+    // Agrega una página
+    doc.addPage({
+        size: [595.28, 841.89], // Tamaño A4 en puntos (1 punto = 1/72 pulgada)
+        margin: 0 // Sin márgenes
     });
 
-    // Contenido del PDF
-    doc.fontSize(12).text(`Recibio: ${comprobante.receptor_}`);
-    doc.fontSize(12).text(`Area responsable: ${comprobante.area_entrega}`);
-    doc.fontSize(12).text(`Entregado por: ${comprobante.emisor_}`);
-    doc.fontSize(12).text(`Observacion: ${comprobante.observacion}`);
-    doc.fontSize(12).text(`Fecha: ${comprobante.fecha}`);
+    // Agrega el fondo
+    doc.image('public/image/pdfBackground.png', {
+        fit: [595.28, 841.89] // Ajusta el tamaño de la imagen para que cubra toda la página
+    });
 
-    return doc;
+    // Agrega contenido basado en el comprobante proporcionado
+    const contenido =   `Recibió: ${comprobante.receptor_}\n` +
+                        `Área responsable: ${comprobante.area_entrega}\n` +
+                        `Entregado por: ${comprobante.emisor_}\n` +
+                        `Observación: ${comprobante.observacion}\n` +
+                        `Fecha: ${comprobante.fecha}`;
 
-    
+    // Calcula la posición para colocar el contenido encima del fondo
+    const contentX = 50; // Ajusta la posición horizontal según sea necesario
+    const contentY = 140; // Ajusta la posición vertical según sea necesario
+
+    // Agrega el contenido encima del fondo
+    doc.text(contenido, contentX, contentY);
+
+    return doc; // Devuelve el objeto PDFDocument
 }
 
-module.exports = { generatePDF };
+module.exports = generatePDF;
 
-
-///////
-
-<a href="javascript:void(0);" id="verMas_<%= comprobante._id %>" onclick="toggleObservacion('<%= comprobante._id %>')">Ver Más</a>

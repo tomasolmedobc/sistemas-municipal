@@ -1,6 +1,6 @@
+// pdfController.js
 const Comprobante = require('../model/Comprobante');
-const pdfGenerator = require('../public/js/pdfGenerator');
-
+const generatePDF = require('../public/js/pdfGenerator');
 
 module.exports.print = async (req, res) => {
     const comprobanteId = req.params.id;
@@ -11,7 +11,7 @@ module.exports.print = async (req, res) => {
         }
 
         // Generar el PDF
-        const doc = pdfGenerator.generatePDF(comprobante);
+        const doc = generatePDF(comprobante);
 
         // Enviar el PDF al navegador
         res.setHeader('Content-Type', 'application/pdf');

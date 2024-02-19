@@ -77,7 +77,7 @@ router.post('/createComprobante', comprobanteController.create);
 //Ruta para editar un comprobante
 router.post('/editComprobante', comprobanteController.edit);
 
-// Ruta para eliminar un ip (GET)
+// Ruta para eliminar un comprobante (GET)
 router.get('/deleteComprobante/:id', comprobanteController.delete);
 
 router.get('/pdfComprobante/:id', pdfController.print);

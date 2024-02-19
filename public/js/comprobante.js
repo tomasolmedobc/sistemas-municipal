@@ -122,29 +122,6 @@
                 throw error;
             }
         }
-        // Función para mostrar la vista de impresión
-        function mostrarVistaImpresion(comprobanteId) {
-            // Crea un nuevo documento HTML para la vista de impresión
-            const printWindow = window.open('', '_blank');
-            const printDocument = printWindow.document;
-
-            printDocument.write('<html lang="en"><head>');
-            printDocument.write('<meta charset="UTF-8">');
-            printDocument.write('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-            printDocument.write('<title>Print Comprobante</title>');
-            printDocument.write('</head><body>');
-
-            // Incluye los datos del comprobante en el cuerpo del documento
-            printDocument.write('<h1>Contenido del comprobante a imprimir</h1>');
-
-            const preElement = printDocument.createElement('pre');
-            preElement.textContent = JSON.stringify(comprobanteId, null, 2);
-            printDocument.body.appendChild(preElement);
-
-            printDocument.write('</body></html>');
-            printDocument.close();
-        }
-
     });
 })();
 
